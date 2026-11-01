@@ -117,15 +117,15 @@ pnpm web:pilot
 Root install извлекает pinned Playwright Core из проверенного vendored archive в .adw; браузеры автоматически не скачиваются. API/setup: [Verifier README](packages/verifier/README.md). Реализация, тесты и фактические блокировки: [отчёт 07](docs/implementation/07-status.md).
 
 
-## Этап 08 — первый шаг: headless desktop core
+## Этап 08 — Electron и React, нативный DoD ожидает проверки
 
-Подготовлен типизированный IPC для будущих пяти экранов: проект, задача, контекст, проверки и review. Core работает отдельным системным Node-процессом, использует существующие Supervisor/Verifier/Git gates и сохраняет утверждённые spec + execution policy в SQLite v6. Открытие проекта и чтение данных не запускают моделей.
+Добавлены Electron main/preload и пять React-экранов: Project, Task, Context, Verification и Review. Core работает отдельным системным Node-процессом с SQLite v6. Выбор проекта и утверждение spec/accept/reject проходят через нативные диалоги; renderer не получает host token или произвольные файловые методы.
 
 ```bash
-pnpm desktop:core:build
-node packages/core/dist/desktop-core.mjs --data-dir /tmp/adw-desktop-data --health
+pnpm desktop:build
+# При отдельно установленном Electron в PATH:
+pnpm desktop:start
 ```
 
-Без `--health` процесс принимает JSON Lines через stdin/stdout; никаких sockets и Electron ABI для SQLite. Это workspace build с установленными зависимостями, не desktop installer. Electron main/preload, нативные подтверждения и React UI ещё не реализованы. Реальный web gate 07 и ручной DoD остаются открыты.
-
-Контракты, host authorization и ограничения: [Core IPC README](packages/core/src/ipc/README.md). Подготовленный шаг и оставшаяся работа: [отчёт 08](docs/implementation/08-status.md).
+Это workspace build, не установщик. Electron runtime отсутствует в offline cache этой машины и не устанавливается автоматически. Нативное окно, реальный web gate 07 и ручной сквозной DoD пока не проверены. Детали запуска: [Desktop README](apps/desktop/README.md), [отчёт 08](docs/implementation/08-status.md), [ручной checklist](docs/superpowers/plans/dod-manual-checklist.md).
+# adw
