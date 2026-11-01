@@ -1,0 +1,96 @@
+{
+  "agentId": "claude-code",
+  "version": "2.1.236",
+  "protocol": "claude-stream-json-v1",
+  "verifiedBy": "local-help-and-fake-cli-tests",
+  "sources": [
+    "https://code.claude.com/docs/en/headless",
+    "https://code.claude.com/docs/en/cli-reference",
+    "https://code.claude.com/docs/en/agent-sdk/typescript"
+  ],
+  "help": {
+    "start": [
+      "--help"
+    ],
+    "resume": [
+      "--help"
+    ],
+    "requiredStart": [
+      "--print",
+      "--output-format",
+      "stream-json",
+      "--verbose"
+    ],
+    "requiredResume": [
+      "--resume"
+    ],
+    "review": [
+      "--help"
+    ],
+    "requiredReview": [
+      "--tools",
+      "--strict-mcp-config",
+      "--mcp-config",
+      "--disable-slash-commands"
+    ]
+  },
+  "arguments": {
+    "start": [
+      "--print",
+      "--output-format",
+      "stream-json",
+      "--verbose"
+    ],
+    "resume": [
+      "--print",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--resume",
+      "{sessionId}"
+    ],
+    "review": [
+      "--print",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--mcp-config",
+      "{\"mcpServers\":{}}",
+      "--disable-slash-commands"
+    ]
+  },
+  "capabilities": {
+    "agentId": "claude-code",
+    "execution": {
+      "headless": "supported",
+      "cwd": "supported"
+    },
+    "session": {
+      "resume": "supported",
+      "sessionId": "supported"
+    },
+    "output": {
+      "format": "jsonl",
+      "finalStatus": "supported",
+      "errors": "supported"
+    },
+    "tools": {
+      "mcp": "supported",
+      "permissions": "supported",
+      "sandbox": "unknown"
+    },
+    "usage": {
+      "tokens": "supported",
+      "cost": "supported",
+      "limits": "unknown"
+    },
+    "control": {
+      "cancel": "supported",
+      "timeout": "supported",
+      "processTreeCleanup": "unknown"
+    }
+  }
+}

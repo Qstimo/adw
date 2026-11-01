@@ -1,0 +1,32 @@
+import { afterEach, expect, it } from 'vitest';
+import { writeFileSync, mkdirSync, renameSync } from 'node:fs';
+import { join } from 'node:path';
+import { capturePatchSnapshot } from '@adw/git';
+import { fixture, git } from './helpers.js';
+import { collectReviewDiff, isTestPath } from '../src/review/diff.js';
+let f: Awaited<ReturnType<typeof fixture>>;
+afterEach(() => f?.close());
+it('collects pinned unified diff, binary files, rename metadata and test flags safely', async () => {
+    f = await fixture();
+    const wt = await f.manager.createTaskWorktree({ taskId: 'task_test' });
+    mkdirSync(join(wt.path, 'tests'));
+    writeFileSync(join(wt.path, 'tests', 'value.test.ts'), 'export const testValue=1;');
+    writeFileSync(join(wt.path, 'binary.bin'), Buffer.from([0, 1, 2, 3]));
+    renameSync(join(wt.path, 'value.txt'), join(wt.path, 'renamed\tfile.txt'));
+    await git(wt.path, 'add', '.');
+    await git(wt.path, 'commit', '-m', 'review changes');
+    await git(wt.path, 'config', 'diff.external', 'adw_external_diff_must_not_run');
+    const snapshot = await capturePatchSnapshot(f.manager, wt);
+    const diff = await collectReviewDiff(f.manager, wt, snapshot, f.verifier.evidenceStore);
+    expect(diff.unified).toContain('testValue');
+    expect(diff.files).toEqual(expect.arrayContaining([{ path: 'binary.bin', binary: true, isTestPath: false }, { path: 'tests/value.test.ts', binary: false, isTestPath: true }, { oldPath: 'value.txt', path: 'renamed\tfile.txt', binary: false, isTestPath: false }]));
+    expect(diff.diffRef).toBe('sha256:' + snapshot.patchHash);
+    expect(isTestPath('src/a.spec.ts')).toBe(true);
+});
+it('refuses a live patch different from verified snapshot rather than reviewing stale content', async () => {
+    f = await fixture();
+    const wt = await f.manager.createTaskWorktree({ taskId: 'task_test' });
+    const snapshot = await capturePatchSnapshot(f.manager, wt);
+    writeFileSync(join(wt.path, 'value.txt'), 'drift');
+    await expect(collectReviewDiff(f.manager, wt, snapshot, f.verifier.evidenceStore)).rejects.toThrow('Commit');
+});

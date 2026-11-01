@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ADW verification demo</title></head>
+<body><main><h1>Verification demo</h1><button id="go" type="button">Go</button><p id="status" role="status">waiting</p></main>
+<script>
+const status = document.querySelector('#status');
+document.querySelector('#go').addEventListener('click', async () => {
+ try { const response = await fetch('/health'); if (!response.ok || !(await response.json()).ok) throw new Error('Health failed'); status.textContent = "ready"; console.info('demo ready'); }
+ catch (error) { status.textContent = 'error'; console.error(String(error)); }
+});
+</script></body></html>

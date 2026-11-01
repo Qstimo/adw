@@ -1,0 +1,21 @@
+import { afterEach, expect, it } from 'vitest';
+import { mkdtempSync, cpSync, rmSync, mkdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { ProjectIndexer } from '../src/index.js';
+const roots:string[]=[];
+const indexes:ProjectIndexer[]=[];
+afterEach(()=>{for(const index of indexes.splice(0))index.close();for(const root of roots.splice(0))rmSync(root,{recursive:true,force:true});});
+it('indexes the demo with hashes, symbols, imports, manifests and test commands',async()=>{
+ const root=mkdtempSync(join(tmpdir(),'adw-index-test-'));roots.push(root);
+ const repo=join(root,'repo');mkdirSync(repo);
+ cpSync(fileURLToPath(new URL('../../../fixtures/demo-repo/',import.meta.url)),repo,{recursive:true,filter:source=>!source.split('/').includes('node_modules')});
+ const index=await ProjectIndexer.build({projectId:'proj_demo',repoPath:repo,baseCommit:'a'.repeat(40),dbPath:join(root,'index.sqlite')});indexes.push(index);
+ const map=index.getProjectMap();
+ expect(map.files.find(f=>f.path==='src/add.ts')?.contentHash).toMatch(/^[a-f0-9]{64}$/);
+ expect(map.symbols.find(s=>s.name==='add')).toMatchObject({path:'src/add.ts',kind:'function',startLine:1,endLine:1});
+ expect(map.imports.find(i=>i.path==='src/App.tsx'&&i.specifier==='./add.js')).toMatchObject({resolvedPath:'src/add.ts'});
+ expect(map.testCommands.find(c=>c.name==='test')).toMatchObject({command:'vitest run',cwd:'.'});
+ expect(map.baseCommit).toBe('a'.repeat(40));expect(map.complete).toBe(true);
+});

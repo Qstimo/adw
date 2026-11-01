@@ -1,0 +1,48 @@
+{
+  "agentId": "claude-code",
+  "version": null,
+  "protocol": "unknown",
+  "verifiedBy": "none",
+  "sources": [],
+  "help": {
+    "start": [],
+    "resume": [],
+    "requiredStart": [],
+    "requiredResume": []
+  },
+  "arguments": {
+    "start": [],
+    "resume": []
+  },
+  "capabilities": {
+    "agentId": "claude-code",
+    "execution": {
+      "headless": "unknown",
+      "cwd": "unknown"
+    },
+    "session": {
+      "resume": "unknown",
+      "sessionId": "unknown"
+    },
+    "output": {
+      "format": "unknown",
+      "finalStatus": "unknown",
+      "errors": "unknown"
+    },
+    "tools": {
+      "mcp": "unknown",
+      "permissions": "unknown",
+      "sandbox": "unknown"
+    },
+    "usage": {
+      "tokens": "unknown",
+      "cost": "unknown",
+      "limits": "unknown"
+    },
+    "control": {
+      "cancel": "supported",
+      "timeout": "supported",
+      "processTreeCleanup": "unknown"
+    }
+  }
+}

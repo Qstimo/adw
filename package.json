@@ -1,0 +1,32 @@
+{
+  "name": "adw",
+  "private": true,
+  "packageManager": "pnpm@10.18.3",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "test": "pnpm -r --workspace-concurrency=1 test",
+    "typecheck": "pnpm -r typecheck",
+    "pilot": "vite-node packages/core/scripts/run-pilot.ts",
+    "postinstall": "node scripts/prepare-playwright.mjs",
+    "web:pilot": "vite-node packages/core/scripts/run-web-pilot.ts",
+    "browser:install": "node .adw/playwright-core/cli.js install chromium",
+    "desktop:core:build": "node scripts/build-desktop-core.mjs",
+    "desktop:core": "node packages/core/dist/desktop-core.mjs",
+    "desktop:build": "pnpm desktop:core:build && pnpm --filter @adw/desktop build",
+    "desktop:start": "pnpm --filter @adw/desktop start"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.4",
+    "@types/node": "^22.10.0",
+    "vite-node": "3.2.4",
+    "esbuild": "0.28.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "jsdom": "29.1.1"
+    }
+  }
+}

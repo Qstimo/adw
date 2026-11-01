@@ -1,0 +1,27 @@
+{
+  "name": "@adw/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.24.0",
+    "@adw/contracts": "workspace:*",
+    "better-sqlite3": "^11.10.0",
+    "@adw/git": "workspace:*",
+    "@adw/verifier": "workspace:*",
+    "@adw/context": "workspace:*",
+    "@adw/supervisor": "workspace:*",
+    "@adw/cli-adapters": "workspace:*",
+    "typescript": "~5.9.3"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12"
+  }
+}

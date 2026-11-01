@@ -1,0 +1,1 @@
+{"title":"button sets status ready","path":"/","steps":[{"action":"click","selector":"#go"},{"action":"text","selector":"#status","expected":"ready"}]}

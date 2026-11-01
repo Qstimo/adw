@@ -1,0 +1,4 @@
+[
+ {"id":"api.health","acceptanceIndex":0,"required":true,"tests":["health returns ok"]},
+ {"id":"web.button","acceptanceIndex":1,"required":true,"tests":["button sets status ready"]}
+]

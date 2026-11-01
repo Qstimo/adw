@@ -1,0 +1,13 @@
+import { z } from 'zod';
+export const ProjectIdSchema = z.string().startsWith('proj_').min(6).brand<'ProjectId'>();
+export const TaskIdSchema = z.string().startsWith('task_').min(6).brand<'TaskId'>();
+export const ArtifactIdSchema = z.string().startsWith('art_').min(5).brand<'ArtifactId'>();
+export const SessionIdSchema = z.string().min(1).brand<'SessionId'>();
+export const CommitSchema = z.string().regex(/^[a-f0-9]{40}$/);
+export const HashSchema = z.string().regex(/^[a-f0-9]{64}$/);
+export const TimestampSchema = z.string().datetime({ offset: true });
+export const NonEmptyStringSchema = z.string().trim().min(1);
+export type ProjectId = z.infer<typeof ProjectIdSchema>;
+export type TaskId = z.infer<typeof TaskIdSchema>;
+export type ArtifactId = z.infer<typeof ArtifactIdSchema>;
+export type SessionId = z.infer<typeof SessionIdSchema>;

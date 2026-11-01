@@ -1,0 +1,17 @@
+{
+  "name": "@adw/cli-adapters",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@adw/contracts": "workspace:*",
+    "zod": "^3.24.0"
+  }
+}

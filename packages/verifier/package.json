@@ -1,0 +1,18 @@
+{
+  "name": "@adw/verifier",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@adw/contracts": "workspace:*",
+    "playwright-core": "link:../../.adw/playwright-core",
+    "zod": "^3.24.0"
+  }
+}

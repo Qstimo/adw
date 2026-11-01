@@ -1,0 +1,93 @@
+{
+  "agentId": "codex",
+  "version": "0.166.0",
+  "protocol": "codex-jsonl-v1",
+  "verifiedBy": "local-help-and-fake-cli-tests",
+  "sources": [
+    "https://learn.chatgpt.com/docs/non-interactive-mode",
+    "https://learn.chatgpt.com/docs/developer-commands"
+  ],
+  "help": {
+    "start": [
+      "exec",
+      "--help"
+    ],
+    "resume": [
+      "exec",
+      "resume",
+      "--help"
+    ],
+    "requiredStart": [
+      "--json",
+      "--sandbox"
+    ],
+    "requiredResume": [
+      "--json",
+      "SESSION_ID"
+    ],
+    "review": [
+      "exec",
+      "--help"
+    ],
+    "requiredReview": [
+      "--sandbox",
+      "read-only"
+    ]
+  },
+  "arguments": {
+    "start": [
+      "exec",
+      "--json",
+      "--sandbox",
+      "workspace-write",
+      "-"
+    ],
+    "resume": [
+      "exec",
+      "--json",
+      "--sandbox",
+      "workspace-write",
+      "resume",
+      "{sessionId}",
+      "-"
+    ],
+    "review": [
+      "exec",
+      "--json",
+      "--sandbox",
+      "read-only",
+      "-"
+    ]
+  },
+  "capabilities": {
+    "agentId": "codex",
+    "execution": {
+      "headless": "supported",
+      "cwd": "supported"
+    },
+    "session": {
+      "resume": "supported",
+      "sessionId": "supported"
+    },
+    "output": {
+      "format": "jsonl",
+      "finalStatus": "supported",
+      "errors": "supported"
+    },
+    "tools": {
+      "mcp": "supported",
+      "permissions": "supported",
+      "sandbox": "supported"
+    },
+    "usage": {
+      "tokens": "supported",
+      "cost": "unknown",
+      "limits": "unknown"
+    },
+    "control": {
+      "cancel": "supported",
+      "timeout": "supported",
+      "processTreeCleanup": "unknown"
+    }
+  }
+}

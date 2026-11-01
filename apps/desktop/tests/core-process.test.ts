@@ -1,0 +1,12 @@
+import {expect,it} from 'vitest';
+import {mkdtemp,rm,writeFile} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+import {randomBytes} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import {CoreProcess} from '../electron/core-client.js';
+import type {DesktopProject,DesktopTask} from '@adw/contracts';
+const execute=promisify(execFile);
+it('host client talks to the compiled core, scopes a real repo and authorizes exact spec only with host capability',async()=>{const root=fileURLToPath(new URL('../../../',import.meta.url));await execute(process.execPath,[join(root,'scripts/build-desktop-core.mjs')],{cwd:root});const directory=await mkdtemp(join(tmpdir(),'adw-shell-'));let core:CoreProcess|undefined;try{const repo=join(directory,'repo');await execute('git',['init','-b','main',repo]);await execute('git',['-C',repo,'config','user.name','ADW']);await execute('git',['-C',repo,'config','user.email','adw@test']);await writeFile(join(repo,'file.txt'),'base');await execute('git',['-C',repo,'add','.']);await execute('git',['-C',repo,'commit','-m','base']);core=new CoreProcess(process.execPath,join(root,'packages/core/dist/desktop-core.mjs'),join(directory,'data'),randomBytes(32).toString('hex'));expect(await core.invoke('core.health',{})).toEqual({status:'ok'});const project=await core.invoke('project.open',{path:repo}) as DesktopProject;const task=await core.invoke('task.createDraft',{projectId:project.id,baseBranch:'main',intent:'Exact intent',acceptance:['  raw criterion\nline 2  '],outOfScope:[],checks:[{name:'test',command:'node --version',blocking:true}],limits:project.policy.limits}) as DesktopTask;const confirm={taskId:task.spec.id,expectedSpecHash:task.specHash,expectedPolicyHash:task.policyHash};await expect(core.invoke('task.confirmSpec',confirm)).rejects.toThrow();const locked=await core.invoke('task.confirmSpec',confirm,true) as DesktopTask;expect(locked.spec.status).toBe('locked');expect(locked.spec.acceptance).toEqual(task.spec.acceptance);}finally{core?.close();await new Promise(resolve=>setTimeout(resolve,200));await rm(directory,{recursive:true,force:true});}},30000);

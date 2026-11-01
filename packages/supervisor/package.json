@@ -1,0 +1,7 @@
+{
+  "name": "@adw/supervisor", "version": "0.0.0", "private": true, "type": "module",
+  "exports": {".": "./src/index.ts"},
+  "scripts": {"test": "vitest run", "typecheck": "tsc --noEmit"},
+  "dependencies": {"@adw/contracts":"workspace:*","@adw/cli-adapters":"workspace:*","@adw/git":"workspace:*","@adw/verifier":"workspace:*","@adw/context":"workspace:*","better-sqlite3":"^11.10.0"},
+  "devDependencies": {"@types/better-sqlite3":"^7.6.12"}
+}
