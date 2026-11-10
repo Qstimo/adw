@@ -1,0 +1,1 @@
+{"method":"GET","url":"http://127.0.0.1:38665/health","status":200,"contentType":"application/json","body":"{\"ok\":true}","requestHeaders":"[OMITTED]","expectations":{"status":200,"jsonShape":{"ok":"boolean"}},"proves":"scenario_observation"}

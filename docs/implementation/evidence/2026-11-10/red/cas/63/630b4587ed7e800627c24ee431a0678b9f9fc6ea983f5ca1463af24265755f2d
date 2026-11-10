@@ -1,0 +1,1 @@
+{"kind":"api_smoke","proves":"scenario_observation","baseCommit":"af0b913ae0a0e5cfd7867c46896524d160fbcae6","status":"passed","observations":[{"title":"health returns ok","status":"passed"}],"artifacts":[{"ref":"sha256:e4efa3aea5463e3cd7885613da88200d3a10a95530895008eda76fbe07faffff","mediaType":"application/json","role":"api_response","scenario":"health returns ok"}]}

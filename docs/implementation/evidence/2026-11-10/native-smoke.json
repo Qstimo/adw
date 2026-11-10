@@ -1,0 +1,27 @@
+{
+  "electron": "38.8.6",
+  "window": {
+    "allowRunningInsecureContent": false,
+    "contextIsolation": true,
+    "disableDialogs": false,
+    "disablePopups": false,
+    "enableBlinkFeatures": "",
+    "experimentalFeatures": false,
+    "javascript": true,
+    "nodeIntegration": false,
+    "nodeIntegrationInSubFrames": false,
+    "safeDialogs": false,
+    "safeDialogsMessage": "",
+    "sandbox": true,
+    "webSecurity": true,
+    "webviewTag": false
+  },
+  "renderer": {
+    "text": "ADW\nВыберите проект\nПроект\nЗадача\nКонтекст\nВерификация\nReview\nПроект\nВыбрать Git-проект",
+    "node": "undefined",
+    "require": "undefined",
+    "globals": [
+      "adw"
+    ]
+  }
+}

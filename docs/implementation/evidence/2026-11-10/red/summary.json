@@ -1,0 +1,39 @@
+{
+  "state": "needs_human",
+  "reviewStatus": null,
+  "mainClean": true,
+  "mainBaseUnchanged": true,
+  "casFilesVerified": 26,
+  "checks": [
+    {
+      "name": "typecheck",
+      "exitCode": 0,
+      "notVerified": 0
+    },
+    {
+      "name": "unit",
+      "exitCode": 0,
+      "notVerified": 0
+    },
+    {
+      "name": "web_environment",
+      "exitCode": 0,
+      "notVerified": 0
+    },
+    {
+      "name": "api_smoke",
+      "exitCode": 0,
+      "notVerified": 0
+    },
+    {
+      "name": "playwright_e2e",
+      "exitCode": 1,
+      "notVerified": 0
+    },
+    {
+      "name": "web_acceptance",
+      "exitCode": 1,
+      "notVerified": 0
+    }
+  ]
+}

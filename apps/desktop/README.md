@@ -1,6 +1,6 @@
 # ADW Desktop
 
-Рабочая Electron + React оболочка для workspace core. Нативное окно в текущей sandbox не запускалось; stage 08 DoD остаётся открытым.
+Рабочая Electron + React оболочка для workspace core. Native Linux startup smoke пройден 2026-11-10 с Electron 38.8.6 и включённым sandbox; полный stage 08 DoD остаётся открытым.
 
 ```bash
 pnpm install --frozen-lockfile
@@ -24,3 +24,13 @@ pnpm --filter @adw/desktop typecheck
 ```
 
 DOM тесты используют JSDOM; host-тесты проверяют native dialog flow с doubles. Отдельный тест подключается к реальному собранному core и Git/SQLite. Ручная проверка: [DoD checklist](../../docs/superpowers/plans/dod-manual-checklist.md).
+
+## Проверенный запуск в текущем окружении
+
+```bash
+/tmp/adw-electron/node_modules/electron/dist/electron apps/desktop
+```
+
+Electron runtime установлен в `/tmp` и использует ссылку `dist/chrome-sandbox` на существующий системный `/opt/google/chrome/chrome-sandbox` (root, 4755). Исходный helper сохранён как `dist/chrome-sandbox.original`. Настройки ОС не изменялись. Runtime временный; этот путь не является переносимой установкой приложения.
+
+Результат native startup smoke: [отчёт](../../docs/implementation/evidence/2026-11-10/native-smoke.json). Проверка полного цикла с реальным CLI остаётся открытой.

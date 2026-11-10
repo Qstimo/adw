@@ -1,6 +1,6 @@
 # Этап 07 — API smoke и browser verification
 
-Дата: 2026-11-01. Реализация по плану 07 / §8 ТЗ подготовлена. **Acceptance gate этапа пока не пройден: реальный HTTP/browser E2E блокируется sandbox permissions.** Следующий этап 08 не объявляется разблокированным.
+Дата обновления: 2026-11-10. **Реальный HTTP/Chromium gate этапа 07 пройден.** Green и forced-red прогоны выполнены вне sandbox; evidence и журналы сохранены в проекте. Зависимость этапа 08 от web gate закрыта. Исторические ограничения ниже относятся к первоначальным попыткам.
 
 ## Реализовано
 
@@ -55,3 +55,13 @@ pnpm web:pilot
 - Упомянутые superpowers skills отсутствуют; работа выполнена непосредственно по плану. Git commits недоступны: .git пустая/read-only.
 
 API и setup: [Verifier README](../../packages/verifier/README.md).
+
+## Реальный gate — 2026-11-10
+
+- `pnpm browser:install`: установлен Chromium 131.0.6778.33, Playwright build 1148, FFmpeg 1010. Node 22.12.0, pnpm 10.18.3, Linux 7.0.0-38-generic.
+- `pnpm web:pilot`: exit 0; ready_for_human_review, review approved; typecheck/unit/environment/API/browser/required acceptance — passed.
+- `ADW_DEMO_RED_WEB=1 pnpm web:pilot`: exit 1; needs_human, browser и required web acceptance failed, review не запущен.
+- В обоих случаях mainClean/mainBaseUnchanged=true.
+- Настоящие browser media, CAS, журналы и полные результаты: [evidence](evidence/2026-11-10/README.md). CAS проверен по SHA-256.
+- Executor и reviewer в этом пилоте — FakePilotAdapter. Это реальный web gate, но не сквозная приёмка с авторизованными CLI и человеком.
+- Повторные `pnpm typecheck`, `pnpm test` (317 passed, 2 skipped), `pnpm desktop:build` прошли.

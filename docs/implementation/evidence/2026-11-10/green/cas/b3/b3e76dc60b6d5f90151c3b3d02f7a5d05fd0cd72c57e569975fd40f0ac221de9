@@ -1,0 +1,11 @@
+
+ RUN  v3.2.7 /tmp/adw-e2e-pilot-6JZGmj/data/worktrees/task_pilot
+
+ ✓ src/server.test.ts (2 tests) 4ms
+ ✓ src/add.test.ts (1 test) 2ms
+
+ Test Files  2 passed (2)
+      Tests  3 passed (3)
+   Start at  01:05:15
+   Duration  466ms (transform 67ms, setup 0ms, collect 99ms, tests 6ms, environment 0ms, prepare 150ms)
+

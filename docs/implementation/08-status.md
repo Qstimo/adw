@@ -39,3 +39,17 @@
 - Навигация и Task ID hash для повторного открытия после выбора проекта. Optional Open in IDE не реализован. Назначения агентов/причины доступны через события; dedicated assignment DTO core не предоставляет. Установщик и автономная упаковка вне этой сборки.
 - 19 новых тестов: 7 DOM сценариев пяти экранов, 7 host approval/sender сценариев с doubles, 4 allowlist/evidence проверки, 1 настоящий compiled Node core обмен на временном Git repo. Эти проверки не заменяют настоящий Electron smoke.
 - `pnpm desktop:build`, общий `pnpm typecheck` и `pnpm test` прошли: **317 passed, 2 optional live CLI probes skipped** (298 прежних + 19 desktop). Native Electron runtime отсутствует; окно и ручной DoD не проверены.
+
+## Обновление — 2026-11-10
+
+Реальный web gate 07 закрыт, повторные typecheck/test/desktop:build прошли (317 passed, 2 optional skipped). Установлен Linux Electron 38 в `/tmp/adw-electron`. Native smoke выполнен попыткой настоящего запуска, но окно не открылось: SUID helper не настроен (ожидаются root ownership и 4755); попытка namespace sandbox с `--disable-setuid-sandbox` завершилась `No usable sandbox`. `--no-sandbox` не использовался. Логи: [evidence](evidence/2026-11-10/README.md).
+
+Следующий шаг требует настроенного системного Electron sandbox администратором либо подходящего Linux runtime. Затем повторить native smoke и ручной DoD с реальными CLI. Этап 08 открыт, 09/10 не начаты.
+
+## Native smoke пройден — 2026-11-10
+
+Electron 38.8.6 запустил настоящее окно в текущей Linux desktop session. Визуально проверен экран выбора проекта. Core health выполнен до создания окна. Проверены фактические webPreferences: sandbox=true, contextIsolation=true, nodeIntegration=false, webSecurity=true; renderer не имеет process/require, preload bridge window.adw доступен. Приложение штатно закрыто после smoke. Это проверка старта, не ручной DoD и не проверка нативных подтверждений.
+
+Причина первоначальной ошибки устранена в установленном `/tmp/adw-electron` runtime: локальный chrome-sandbox сохранён как chrome-sandbox.original и заменён символической ссылкой на существующий root-owned `/opt/google/chrome/chrome-sandbox` (4755). Переменная CHROME_DEVEL_SANDBOX этой сборкой не учитывалась. Настройки AppArmor/sysctl и системные файлы не менялись; sandbox не отключался. Runtime в /tmp временный, после его удаления потребуется повторная установка/настройка.
+
+Результат: [native-smoke.json](evidence/2026-11-10/native-smoke.json), [снимок окна](evidence/2026-11-10/native-smoke.png). Следующий gate — полный ручной цикл с настоящими CLI, выбором проекта и native approval dialogs.
